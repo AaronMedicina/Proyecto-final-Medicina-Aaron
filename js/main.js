@@ -61,3 +61,30 @@ function buscarProducto() {
     }
 }
 
+function agregarProducto() {
+    const nombre = capitalize(prompt("Ingrese el nombre del producto"));
+    const marca = capitalize(prompt("Ingrese la marca del producto"));
+    const categoria = capitalize(prompt("Ingrese la categoria del producto"));
+
+    const nuevoProducto = new Productos(nombre, marca, categoria);
+
+    Almacen.push(nuevoProducto);
+
+    console.log("El producto se agregó exitosamente.");
+}
+
+function modificarProducto() {
+    const nombre = capitalize(prompt("Ingrese el nombre del producto que desea modificar:"));
+    const producto = Almacen.find(producto => producto.nombre === nombre);
+
+    if (producto) {
+        producto.nombre = capitalize(prompt("Ingrese el nuevo nombre del producto:", producto.nombre));
+        producto.marca = capitalize(prompt("Ingrese la nueva marca del producto:", producto.marca));
+        producto.categoria = capitalize(prompt("Ingrese la nueva categoria del producto:", producto.categoria));
+
+        console.log("Producto modificado");
+    } else {
+        console.log("No se encontró el producto");
+    }
+}
+
