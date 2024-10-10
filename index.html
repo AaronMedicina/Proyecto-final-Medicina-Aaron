@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Proyecto JavaScript</title>
+</head>
+
+<body>
+    
+    <form id="formularioProducto">
+        <h1>Ingresar producto</h1>
+
+        <label for="nombre">Nombre del Producto:</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del producto" required>
+        <br><br>
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" placeholder="Ingrese el precio del producto" min="0" step="0.01"
+            required>
+        <br><br>
+        <label for="tieneDescuento">¿Tiene algún descuento?</label>
+        <select id="tieneDescuento" name="tieneDescuento">
+            <option value="no" selected>No</option>
+            <option value="si">Sí</option>
+        </select>
+        <br><br>
+        <label for="descuento">Descuento (%):</label>
+        <input type="number" id="descuento" name="descuento" placeholder="Ingrese el descuento (%)" min="0" step="0.01"
+            disabled>
+        <br><br>
+        <label for="tieneImpuesto">¿Hay algún impuesto adicional?</label>
+        <select id="tieneImpuesto" name="tieneImpuesto">
+            <option value="no" selected>No</option>
+            <option value="si">Sí</option>
+        </select>
+        <br><br>
+        <label for="impuesto">Impuesto (%):</label>
+        <input type="number" id="impuesto" name="impuesto" placeholder="Ingrese el impuesto (%)" min="0" step="0.01"
+            disabled>
+        <br><br>
+        <button type="button" onclick="valorFinalProducto()">Calcular valor final y guardar producto</button>
+        <br><br>
+        <button type="button" id="mostrarProductos">Mostrar productos guardados</button>
+        <br><br>
+        <h2>Filtrar productos por precio</h2>
+        <label for="precioMin">Precio mínimo:</label>
+        <input type="number" id="precioMin" name="precioMin" placeholder="Ingrese precio mínimo" min="0" step="0.01">
+        <br><br>
+        <label for="precioMax">Precio máximo:</label>
+        <input type="number" id="precioMax" name="precioMax" placeholder="Ingrese precio máximo" min="0" step="0.01">
+        <br><br>
+        <button type="button" id="filtrarProductos">Filtrar productos</button>
+
+        <div class="result" id="resultado"></div>
+    </form>
+
+<script src="./js/main.js"></script>    
+</body>
+</html>
