@@ -68,3 +68,77 @@ function mostrarProductosGuardados() {
         document.getElementById("resultado").innerHTML = "No hay productos guardados.";
     } else {
         let html = "<h2>Productos guardados:</h2><ul>";
+        productosArray.forEach((producto, index) => {
+            const valorFinal = producto.calcularValorFinal();
+            html += `<li>${index + 1}. ${producto.nombre} - Precio inicial: $${producto.precio}, Descuento: ${producto.descuento}%, Impuesto: ${producto.impuesto}%, Valor final: $${valorFinal}</li>`;
+        });
+        html += "</ul>";
+        document.getElementById("resultado").innerHTML = html;
+    }
+}
+
+function filtrarProductosPorPrecio() {
+    const precioMin = parseFloat(document.getElementById("precioMin").value) || 0;
+    const precioMax = parseFloat(document.getElementById("precioMax").value) || Infinity;
+
+    const productosFiltrados = productosArray.filter(producto => {
+        const valorFinal = producto.calcularValorFinal();
+        return valorFinal >= precioMin && valorFinal <= precioMax;
+    });
+
+    if (productosFiltrados.length === 0) {
+        document.getElementById("resultado").innerHTML = "No se encontraron productos en ese rango de precios.";
+    } else {
+        let html = "<h2>Productos filtrados:</h2><ul>";
+        productosFiltrados.forEach((producto, index) => {
+            html += `<li>${index + 1}. ${producto.nombre} - Precio Final: $${producto.calcularValorFinal()}</li>`;
+        });
+        html += "</ul>";
+        document.getElementById("resultado").innerHTML = html;
+    }
+}
+
+function manejarCamposDescuento() {
+    const tieneDescuento = document.getElementById("tieneDescuento").value;
+    const descuentoInput = document.getElementById("descuento");
+
+    if (tieneDescuento === "si") {
+        descuentoInput.disabled = false;
+    } else {
+        descuentoInput.disabled = true;
+        descuentoInput.value = '';
+    }
+}
+
+function manejarCamposImpuesto() {
+    const tieneImpuesto = document.getElementById("tieneImpuesto").value;
+    const impuestoInput = document.getElementById("impuesto");
+
+    if (tieneImpuesto === "si") {
+        impuestoInput.disabled = false;
+    } else {
+        impuestoInput.disabled = true;
+        impuestoInput.value = '';
+    }
+}
+
+document.getElementById("calcularValor").addEventListener("click", valorFinalProducto);
+document.getElementById("mostrarProductos").addEventListener("click", mostrarProductosGuardados);
+document.getElementById("filtrarProductos").addEventListener("click", filtrarProductosPorPrecio);
+document.getElementById("tieneDescuento").addEventListener("change", manejarCamposDescuento);
+document.getElementById("tieneImpuesto").addEventListener("change", manejarCamposImpuesto);
+document.addEventListener("DOMContentLoaded", function () {
+    cargarProductosDesdeLocalStorage();
+    fetch('../productos/productos.json')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(producto => {
+            const productoExistente = productosArray.find(p => p.nombre === producto.nombre);
+            if (!productoExistente) {
+                productosArray.push(new Productos(producto.nombre, producto.precio, producto.descuento, producto.impuesto));
+            }
+        });
+        guardarProductosEnLocalStorage();
+        mostrarProductosGuardados();
+    })
+});
